@@ -7,7 +7,11 @@ namespace Sitecore.Support.Modules.EmailCampaign.Core.Services
     {
         public override int Status(MessageItem message, out int totalNumServers)
         {
-            return base.Status(message, out totalNumServers);
+            if (message.State == MessageState.Sending)
+                return base.Status(message, out totalNumServers);
+
+            totalNumServers = DedicatedServers.GetServers().Count;
+            return 0;
         }
     }
 }
